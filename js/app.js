@@ -51,7 +51,7 @@ class InventoryItemsView {
 			</table>`;
 		} else {
 			inventoryItemsTemplate = `<p>
-				There are not items in the inventory.
+				There are no items in the inventory.
 			</p>`;
 		}
 
@@ -67,7 +67,7 @@ class Controller {
 	}
 
 	// ajax success callback
-	setModel(data) {
+	populateView(data) {
 		let model = new Model(data);
 		let views = new Set([ 
 			new InventoryItemsView()
@@ -84,7 +84,7 @@ class Controller {
 	}
 
 	getData() {
-		let inventoryRequest = new AjaxRequest(this.url, this.setModel, this.error);
+		let inventoryRequest = new AjaxRequest(this.url, this.populateView, this.error);
 		inventoryRequest.fetchData();
 	}
 
