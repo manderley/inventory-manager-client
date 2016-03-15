@@ -55,7 +55,7 @@ gulp.task('scripts-watch', ['scripts'], browserSync.reload);
 gulp.task('watch', function() {
 	browserSync.init({
 		server: './dist',
-		port: 8000
+		port: 8080
 	});
 
 	gulp.watch('css/*.css', ['styles']);
