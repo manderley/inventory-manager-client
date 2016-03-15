@@ -26,29 +26,34 @@ class Model {
 		this.items = items;
 	}
 
-	getItems() {
-		return this.items;
-	}
-
 }
 
 class InventoryItemsView {
 	render(model) {
-		let items = model.getItems();
-		const inventoryItemsTemplate = `<table>
-			<thead>
-				<th>Label</th>
-				<th>Type</th>
-				<th>Expiry</th>
-			</thead>
-			<tbody>
-				${items.map(item => `<tr>
-					<td>${item.label}</td>
-					<td>${item.type}</td>
-					<td>${item.expiry}</td>
-				</tr>`).join('\n    ')}
-			</tbody>
-		</table>`;
+		let items = model.items;
+
+		var inventoryItemsTemplate;
+
+		if (items.length) {
+			inventoryItemsTemplate = `<table>
+				<thead>
+					<th>Label</th>
+					<th>Type</th>
+					<th>Expiry</th>
+				</thead>
+				<tbody>
+					${items.map(item => `<tr>
+						<td>${item.label}</td>
+						<td>${item.type}</td>
+						<td>${item.expiry}</td>
+					</tr>`).join('\n    ')}
+				</tbody>
+			</table>`;
+		} else {
+			inventoryItemsTemplate = `<p>
+				There are not items in the inventory.
+			</p>`;
+		}
 
 		$('main').append(inventoryItemsTemplate);
 	}
