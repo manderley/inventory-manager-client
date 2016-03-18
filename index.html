@@ -9,12 +9,36 @@
 	<body>
 		<header>
 			<h1>Inventory Manager</h1>
-			
+			<div class="actions">
+				<span class="action--add">
+					<a href="#add-item">Add item</a>
+				</span>
+			</div>
 		</header>
 		<main>
 			
 			
 		</main>
+		<form id="add-item">
+			<legend>Add Item</legend>
+			<ol>
+				<li>
+					<label for="item-label">Label</label>
+					<input type="text" id="item-label" name="label" />
+				</li>
+				<li>
+					<label for="item-type">Type</label>
+					<input type="text" id="item-type" name="type" />
+				</li>
+				<li>
+					<label for="item-expiry">Expiry</label>
+					<input type="text" id="item-expiry" name="expiry" />
+				</li>
+				<li>
+					<input type="submit" />
+				</li>
+			</ol>
+		</form>
 		<script src="libs/jquery-1.12.0.min.js"></script>
 		<script src="js/app.js"></script>
 	</body>

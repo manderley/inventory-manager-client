@@ -62,13 +62,17 @@ class InventoryItemsView {
 class Controller {
 
 	constructor(url) {
-		// url to send to ajax request
 		this.url = url;
+	}
+
+	getUrl() {
+		return this.url;
 	}
 
 	// ajax success callback
 	populateView(data) {
 		let model = new Model(data);
+		
 		let views = new Set([ 
 			new InventoryItemsView()
 		]);
@@ -88,9 +92,33 @@ class Controller {
 		inventoryRequest.fetchData();
 	}
 
+	addNewItem(url, formId) {
+		var form = $(formId);
+		var formData = form.serializeArray();
+
+		$.ajax({
+			url: url,
+			type: 'POST',
+			data: formData,
+			dataType: 'json'
+		});
+		
+	}
+
+	addEventListeners() {
+		let form = document.getElementById('add-item');
+		let self = this;
+		form.addEventListener('submit', event => {
+			event.preventDefault();
+			self.addNewItem(self.url, form);
+		});
+	}
+
 }
+
 
 window.onload = function() {
 	let controller = new Controller('http://localhost:3000/items');
 	controller.getData();
+	controller.addEventListeners();
 };
