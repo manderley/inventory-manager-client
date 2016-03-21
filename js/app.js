@@ -61,12 +61,6 @@ class InventoryItemsView {
 	}
 }
 
-class DeleteMessageView {
-	render(type, message) {
-		console.log('this is the ' + type + ' view, message is ' + message);
-	}
-}
-
 class Controller {
 
 	constructor(url) {
@@ -113,27 +107,18 @@ class Controller {
 		
 	}
 
-	deleteItem(url) {
-		let inputDelete = document.getElementById('item-label-delete');
+	deleteItem(url, itemID) {
+		let id = itemID.split('-')[1];
 
 		$.ajax({
-			url: url + '/' + inputDelete.value,
-			type: 'DELETE',
-			success: function() {
-				let view = new DeleteMessageView();
-				view.render('success', 'success, item has been deleted');
-			},
-			error: function(xhr) {
-				let view = new DeleteMessageView();
-				view.render('error', xhr.responseText);
-			}
+			url: url + '/' + id,
+			type: 'DELETE'
 		});
 	}
 
 	addEventListeners() {
 		let form = document.getElementById('add-item');
-		//let buttonDelete = document.getElementById('button-delete');
-		//let inputDelete = document.getElementById('item-label-delete');
+		let itemsContainer = document.getElementById('items-container');
 
 		let self = this;
 		
@@ -142,9 +127,12 @@ class Controller {
 			self.addNewItem(self.url, form);
 		});
 
-		// buttonDelete.addEventListener('click', () => {
-		// 	self.deleteItem(self.url);
-		// });
+		itemsContainer.addEventListener('click', event => {
+			event.preventDefault();
+			if (event.target && event.target.nodeName === 'BUTTON') {
+				self.deleteItem(self.url, event.target.id);
+			}
+		});
 
 	}
 
