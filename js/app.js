@@ -40,12 +40,14 @@ class InventoryItemsView {
 					<th>Label</th>
 					<th>Type</th>
 					<th>Expiry</th>
+					<th>Action</th>
 				</thead>
 				<tbody>
 					${items.map(item => `<tr>
 						<td>${item.label}</td>
 						<td>${item.type}</td>
 						<td>${item.expiry}</td>
+						<td><button id="delete-${item.label}">Delete</button</td>
 					</tr>`).join('\n    ')}
 				</tbody>
 			</table>`;
@@ -56,6 +58,12 @@ class InventoryItemsView {
 		}
 
 		$('main').append(inventoryItemsTemplate);
+	}
+}
+
+class DeleteMessageView {
+	render(type, message) {
+		console.log('this is the ' + type + ' view, message is ' + message);
 	}
 }
 
@@ -105,13 +113,39 @@ class Controller {
 		
 	}
 
+	deleteItem(url) {
+		let inputDelete = document.getElementById('item-label-delete');
+
+		$.ajax({
+			url: url + '/' + inputDelete.value,
+			type: 'DELETE',
+			success: function() {
+				let view = new DeleteMessageView();
+				view.render('success', 'success, item has been deleted');
+			},
+			error: function(xhr) {
+				let view = new DeleteMessageView();
+				view.render('error', xhr.responseText);
+			}
+		});
+	}
+
 	addEventListeners() {
 		let form = document.getElementById('add-item');
+		//let buttonDelete = document.getElementById('button-delete');
+		//let inputDelete = document.getElementById('item-label-delete');
+
 		let self = this;
+		
 		form.addEventListener('submit', event => {
 			event.preventDefault();
 			self.addNewItem(self.url, form);
 		});
+
+		// buttonDelete.addEventListener('click', () => {
+		// 	self.deleteItem(self.url);
+		// });
+
 	}
 
 }
